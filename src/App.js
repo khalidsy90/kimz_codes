@@ -3,10 +3,12 @@ import './App.css';
 import React,{useState, useRef} from 'react'
 import Card from './components/Card'
 import Filter from './components/filter/Filter'
+import Modal from './components/modal/Modal'
 
 const App = () => {
 const inputEl=useRef(null)
 
+const [show,setShow]=useState(false)
 const [cardToggle,setCardToggle]=useState(true)  
 
 const [boys, setBoys] = useState([
@@ -44,13 +46,16 @@ const namesHandlers=()=>{
     return arrFilter
   } else return boys
 }
-const x=console.log(boys);
+const hideModal=() => {
+  // setShow(false)
+  console.log('modal fire');
+}
 return (
    <div className={'mainContainer'}>
-   {x}
+   <Modal show={show} hideModal={() => setShow(false)}/>
         <h2>Boys</h2>
         <div style={{marginBottom: '20px'}}>
-           <button onClick={focuseInput}>Click me</button>
+           <button onClick={() => setShow(true)}>Show Modal</button>
         </div>
         <button onClick={showCards}>{cardToggle ? 'show' : 'hide'}</button>
         <div className= {cardToggle ? 'show' : 'hide'}>
