@@ -1,25 +1,65 @@
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React,{useState, useRef} from 'react'
+import Card from './components/Card'
+import Filter from './components/filter/Filter'
+
+const App = () => {
+const inputEl=useRef(null)
+
+const [cardToggle,setCardToggle]=useState(true)  
+
+const [boys, setBoys] = useState([
+{name: 'khalid',age:31 , address: 'irbid', phone: 123456789 ,},
+{name: 'mohammed',age: 50, address: 'amman', phone: 123456789 ,},
+{name: 'ibrahem',age: 40, address: 'daraa', phone:123456789 ,},
+{name: 'kassem',age: 33, address: 'almafraq', phone: 123456789 ,}])
+
+const [filterN,setfilterN]=useState("")
+
+const deleteHandler = async(idx) =>{
+  console.log(boys);
+    await setBoys((prevState) =>{
+     return prevState.filter((item,ix) => {
+       return ix !== idx;
+     })
+  })
+  console.log(boys);
+}
+const showCards=()=>{
+  setCardToggle(!cardToggle)
+}
+const testHandler=() => {
+  console.log(inputEl.current.value);
+}
+const focuseInput=() => {
+  // inputEl.current.focus()
+}
+const filterNames=(name)=>{
+  setfilterN(name)
+}
+const namesHandlers=()=>{
+  if(filterN.length !==0){
+    const arrFilter= boys.filter(item => item.name.includes(filterN))
+    return arrFilter
+  } else return boys
+}
+const x=console.log(boys);
+return (
+   <div className={'mainContainer'}>
+   {x}
+        <h2>Boys</h2>
+        <div style={{marginBottom: '20px'}}>
+           <button onClick={focuseInput}>Click me</button>
+        </div>
+        <button onClick={showCards}>{cardToggle ? 'show' : 'hide'}</button>
+        <div className= {cardToggle ? 'show' : 'hide'}>
+        <Filter filterNames={filterNames}/>
+        <Card namesList={namesHandlers()} type='men' deleteHandler={deleteHandler}/>
+        </div>
+   </div>
+  )
 }
 
-export default App;
+export default App
+
