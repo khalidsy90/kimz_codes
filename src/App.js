@@ -1,12 +1,12 @@
 import './App.css';
 
-import React,{useState, useRef} from 'react'
+import React,{useState, Fragment} from 'react'
 import Card from './components/Card'
 import Filter from './components/filter/Filter'
 import Modal from './components/modal/Modal'
-
+import Button from './components/layout/Button';
+import Adduser from './components/Adduser/Adduser';
 const App = () => {
-const inputEl=useRef(null)
 
 const [show,setShow]=useState(false)
 const [cardToggle,setCardToggle]=useState(true)  
@@ -31,12 +31,6 @@ const deleteHandler = async(idx) =>{
 const showCards=()=>{
   setCardToggle(!cardToggle)
 }
-const testHandler=() => {
-  console.log(inputEl.current.value);
-}
-const focuseInput=() => {
-  // inputEl.current.focus()
-}
 const filterNames=(name)=>{
   setfilterN(name)
 }
@@ -46,23 +40,30 @@ const namesHandlers=()=>{
     return arrFilter
   } else return boys
 }
-const hideModal=() => {
-  // setShow(false)
-  console.log('modal fire');
-}
+
 return (
+  <Fragment>
+
    <div className={'mainContainer'}>
-   <Modal show={show} hideModal={() => setShow(false)}/>
         <h2>Boys</h2>
-        <div style={{marginBottom: '20px'}}>
-           <button onClick={() => setShow(true)}>Show Modal</button>
-        </div>
-        <button onClick={showCards}>{cardToggle ? 'show' : 'hide'}</button>
+        <Button 
+        style={{marginBottom: '20px'}}
+        onClick={() => setShow(true)}
+        >
+        Show Modal
+        </Button>
+        <Button onClick={showCards}>
+        {cardToggle ? 'show' : 'hide'}
+        </Button>
         <div className= {cardToggle ? 'show' : 'hide'}>
         <Filter filterNames={filterNames}/>
         <Card namesList={namesHandlers()} type='men' deleteHandler={deleteHandler}/>
         </div>
    </div>
+        <Modal show={show} hideModal={() => setShow(false)}>
+          <Adduser/>
+        </Modal>
+  </Fragment>
   )
 }
 
