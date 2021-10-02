@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './card.module.css'
 
 const Card = ({namesList , type, deleteHandler}) => {
+    console.log('from card ',namesList);
     const cards=namesList.map(({name,age,address,phone},idx) => 
     <div className={styles.cardWrapper} key={idx} style={{backgroundColor: type === 'men' ? 'blue' : 'pink'}}>
     <div>Name : {name}</div>

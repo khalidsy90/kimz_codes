@@ -1,23 +1,31 @@
 import React,{useState} from 'react'
 import Form from '../layout/Form';
 
+const Adduser = ({newUser,hideModal}) => {
 
-const preventRefresh=(event)=>{
-    event.preventDefault();
-}
-
-const Adduser = () => {
     const [input,setInput]=useState({
         name:'',
         age:'',
         address:'',
         phone:''
     })
+    
     const inputHandler=(event)=> {
-        console.log(event.target.value);
+       const {id , value}=event.target;
+       
+       setInput((prevState) => {
+           return {...prevState,[id]:value}
+       })
+
+    //    setInput({...input,[id]:value})
+    }
+    const addData=(event)=>{
+        event.preventDefault();
+        newUser(input)
+        hideModal()
     }
     return (
-        <Form onSubmit={preventRefresh}>
+        <Form onSubmit={addData}>
             <Form.Controller>
                 <label htmlFor='name'>name : </label>
                 <input type='text' id='name' placeholder='enter your name' value={input.name} onChange={inputHandler}></input>

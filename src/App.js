@@ -1,6 +1,6 @@
 import './App.css';
 
-import React,{useState, Fragment} from 'react'
+import React,{useState, Fragment, useEffect} from 'react'
 import Card from './components/Card'
 import Filter from './components/filter/Filter'
 import Modal from './components/modal/Modal'
@@ -11,13 +11,22 @@ const App = () => {
 const [show,setShow]=useState(false)
 const [cardToggle,setCardToggle]=useState(true)  
 
+
+
 const [boys, setBoys] = useState([
-{name: 'khalid',age:31 , address: 'irbid', phone: 123456789 ,},
-{name: 'mohammed',age: 50, address: 'amman', phone: 123456789 ,},
-{name: 'ibrahem',age: 40, address: 'daraa', phone:123456789 ,},
-{name: 'kassem',age: 33, address: 'almafraq', phone: 123456789 ,}])
+{name: 'khalid',age:'31' , address: 'irbid', phone: '123456789' ,},
+{name: 'mohammed',age: '50', address: 'amman', phone: '123456789' ,},
+{name: 'ibrahem',age: '40', address: 'daraa', phone:'123456789' ,},
+{name: 'kassem',age: '33', address: 'almafraq', phone: '123456789' ,}])
+
+
 
 const [filterN,setfilterN]=useState("")
+
+useEffect(()=> {
+  namesHandlers()
+  console.log('didmount');
+})
 
 const deleteHandler = async(idx) =>{
   console.log(boys);
@@ -40,10 +49,14 @@ const namesHandlers=()=>{
     return arrFilter
   } else return boys
 }
-
+const newUser=(data)=>{
+ setBoys((prevState) => { 
+   prevState.push(data)
+   return prevState
+ })
+}
 return (
   <Fragment>
-
    <div className={'mainContainer'}>
         <h2>Boys</h2>
         <Button 
@@ -61,7 +74,7 @@ return (
         </div>
    </div>
         <Modal show={show} hideModal={() => setShow(false)}>
-          <Adduser/>
+          <Adduser newUser={newUser} hideModal={() => setShow(false)}/>
         </Modal>
   </Fragment>
   )
